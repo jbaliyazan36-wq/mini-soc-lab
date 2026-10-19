@@ -2,40 +2,27 @@
 
 An educational tool for analyzing synthetic authentication logs
 and detecting suspicious security events.
+
+All command-line options are passed to the detection engine in
+detector.py. Run `python main.py --help` to see them.
 """
 
-from pathlib import Path
+import sys
+
+import detector
 
 PROJECT_NAME = "Mini SOC Lab"
-SAMPLE_LOG = Path(__file__).parent / "logs" / "sample_auth.log"
-
-ROADMAP = [
-    "Parse authentication log entries into structured records",
-    "Summarize activity per user and per source IP",
-    "Detect brute-force attempts (repeated failures from one IP)",
-    "Detect password spraying (one IP targeting many users)",
-    "Flag successful logins that follow repeated failures",
-    "Generate a readable alert report",
-]
 
 
-def main() -> None:
-    print("=" * 50)
+def main(argv=None) -> int:
+    print("=" * 60)
     print(f"  {PROJECT_NAME}")
     print("  Educational log analysis for SOC practice")
-    print("=" * 50)
+    print("  Note: all log data in this project is synthetic.")
+    print("=" * 60)
     print()
-    print("Note: all log data in this project is synthetic.")
-    print()
-
-    status = "found" if SAMPLE_LOG.is_file() else "missing"
-    print(f"Sample log: {SAMPLE_LOG.relative_to(SAMPLE_LOG.parent.parent)} ({status})")
-    print()
-
-    print("Planned stages:")
-    for number, stage in enumerate(ROADMAP, start=1):
-        print(f"  {number}. {stage}")
+    return detector.main(argv, prog="main.py")
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
